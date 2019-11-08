@@ -34,13 +34,18 @@ RETURN = """
   _raw:
     description: secrets stored
 """
-
+import os
 from subprocess import Popen, PIPE
 
 from ansible.errors import AnsibleError
 from ansible.module_utils._text import to_bytes, to_text
 from ansible.plugins.lookup import LookupBase
 
+if os.getenv('LPASS_USER') is not None:
+    ANSIBLE_LASTPASS_USER = os.environ['LPASS_USER']
+
+if os.getenv('LPASS_PASS') is not None:
+    ANSIBLE_LASTPASS_PASSWORD = os.environ['LPASS_PASS']
 
 class LPassException(AnsibleError):
     pass
